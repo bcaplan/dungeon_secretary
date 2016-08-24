@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<div>
+<button><a href="/campaigns"><%=@campaign.user.name%>'s Campaigns</a></button>
+
+<h4>Here are all of this campaign's encounters</h4>
+<%@encounters.each do |encounter|%>
+Name: <a href="/encounters/<%=encounter.id%>"><%=encounter.name%></a>
+<a href="/encounters/<%=encounter.id%>" data-method="delete">Delete</a>
+<p></p>
+<%end%>
+<hr>
+<h4>Create new Encounter</h4>
+	<form action="/encounters" method="post">
+		<input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+		Name:<input type="text" name="encounter[name]">
+		Description:<input type="text" name="encounter[description]">
+		<input type='hidden' name='encounter[campaign_id]' value='<%= @campaign.id  %>'>
+		<input type="submit" value="Create">
+	</form>
+</div>
+<div>
+<h4>Here are all the players in the campaign</h4>
+<%@players.each do |player|%>
+Name: <a href="/players/<%=player.id%>"><%=player.name%></a>
+<%=player.bonus%>
+<%=player.notes%>
+<a href="/players/<%=player.id%>" data-method="delete">Delete</a>
+<p></p>
+<%end%>
+<hr>
+<h4>Create a new player</h4>
+	<form action="/players" method="post">
+		<input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+		Name<input type="text" name="player[name]">
+		Description<input type="textarea" name="player[notes]">
+		Bonus<input type="number" name="player[bonus]">
+		<input type='hidden' name='player[campaign_id]' value='<%= @campaign.id  %>'>
+		<input type="submit" value="Create Player">
+	</form>
+</div>
+</body>
+</html>

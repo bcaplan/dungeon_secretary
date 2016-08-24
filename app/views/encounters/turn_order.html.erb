@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<button><a href="/campaigns/<%=@camp%>"><%=@camp.name%></a></button>
+<%@units.each do |unit|%>
+Name: <%=unit[:name]%>
+Initiative: <%=unit[:initiative]%>
+<br>
+<%end%>
+
+
+</body>
+</html>

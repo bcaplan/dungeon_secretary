@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<button><a href="/campaigns/<%=@encounter.campaign_id%>"><%=@encounter.campaign.name%></a></button>
+<h3><%=@encounter.name%></h3>
+<%if @enemies%>
+<%@enemies.each do |enemy|%>
+<p>Creature: <%=enemy.name%> Notes: <%=enemy.notes%></p>
+<a href="/enemies/<%=enemy.id%>" data-method="delete">Delete</a>
+<p></p>
+<%end%>
+<%end%>
+<hr>
+<h4>Create new Enemy</h4>
+	<form action="/enemies" method="post">
+		<input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+		Name:<input type="text" name="enemy[name]">
+		Notes:<input type="text" name="enemy[notes]">
+		Bonus:<input type="number" name="enemy[bonus]">
+		<input type='hidden' name='enemy[encounter_id]' value='<%= @encounter.id  %>'>
+		<input type="submit" value="Create">
+	</form>
+<%if @players%>
+<h4>Select players to add to encounter</h4>
+
+<%@players.each do |player|%>
+<form action="/units" method="post">
+<input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+<input type="checkbox" name="<%=player.name%>" value="<%=player.name%>"><%=player.name%></input>
+<p></p>
+<%end%>
+<%end%>
+<input type="hidden" name="encounter_id" value="<%=@encounter.id%>" >
+<input type="submit" value="Submit">
+</form>
+
+</body>
+</html>

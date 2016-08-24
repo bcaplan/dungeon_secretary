@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<%if flash[:errors]%>
+	<% flash[:errors].each do |e| %>
+		<%=e%>
+		<%end%>
+	<% end %>
+<h3>Welcome <%=current_user.name%>! Adventure awaits!</h3>
+<a href="/users/<%= current_user.id %>/edit">Edit Profile</a>
+<hr>
+<h4>Select the campaign you wish to continue</h4>
+<%if @campaigns %>
+<% @campaigns.each do |campaign| %>
+	Name: <a href="/campaigns/<%=campaign.id%>"><%=campaign.name%></a> 
+	<p></p>
+	Description: <%=campaign.description%>
+	<form action="/campaigns/<%= campaign.id %>" method="post">
+		<input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+		<input type="hidden" name="_method" value="delete">
+		<input type="submit" value="Delete">	
+	</form>
+	<p></p>
+<%end%>
+<%end%>
+	
+<hr>
+<h4>Or create a new campaign</h4>
+<form action="/campaigns" method="post">
+		<input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+		Name:<input type="text" name="campaign[name]">
+		Description:<input type="text" name="campaign[description]">
+		<input type='hidden' name='campaign[user_id]' value='<%= current_user.id %>'>
+		<input type="submit" value="Create">
+	</form>
+
+</body>
+</html>
